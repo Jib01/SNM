@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./style/createPlaylist_style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <title>Create Playlist</title>
+</head>
+
+<body>
+ <div class="container">
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="./images/home_icon.png" alt="Music Icon">
+                <h4>SNM</h4>
+        </div>
+        <div class="menu">
+            <ul>
+                <li>              
+                    <a class="nav-link active" href="/homepage">
+                        <i class='bx bxs-home-circle'> </i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                    
+                <li class="nav-item">
+                    <a class="nav-link" href="/profilepage">
+                        <i class='bx bx-user-circle'>  </i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/publicplaylistspage">
+                        <i class='bx bxs-playlist'>  </i>
+                         <span>Playlists</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link">
+                        <i class='bx bx-list-plus'>  </i>
+                        <span>Create</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+     
+    <main>
+
+          <!--<label for="immagine" class="form-label">Immagine Playlist</label>
+          <input type="file" accept=".jpg, .jpeg, .png" class="form-control" id="immagine" name="immagine">
+
+          <div id="preview-container" class="mt-2">
+            <img id="image-preview" src="#" alt="preview" style="max-width: 100%; max-height: 200px; display: none;">
+          </div>-->
+
+        <h2>Nuova Playlist</h2>
+
+          <form method="POST" id="create-form" class="create-playlist-form">
+            <div class="section">
+              <label for="nome" class="form-label">Nome</label>
+              <input type="text" class="form-control dark" id="playlist-nome" placeholder="nome">
+            </div>
+            <div class="section">
+              <label for="descrizione" class="form-label">Descrizione</label>
+              <input type="text" class="form-control" id="playlist-descrizione" placeholder="descrizione">
+            </div>
+            <div class="section">
+              <label for="privacy" class="form-label">Privacy</label>
+              <select class="form-select" id="playlist-privacy">
+                <option value="true">Privata</option>
+                <option value="false">Pubblica</option>
+              </select>
+            </div>
+            <div class="section">
+              <label for="new-tags" class="form-label">Tags</label>
+              <input type="text" class="form-control" id="playlist-new-tags" placeholder="Inserisci un tag">
+              <div id="tags-list" class="section">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Salva</button>
+        </form>
+          
+        <div id="form-alert" class="alert alert-danger mt-3" style="display: none"></div>
+        <div id="form-success" class="alert alert-success mt-3" style="display: none"></div>
+ 
+   </main>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+
+        const form = document.getElementById('create-form');
+        //const immagineInput = document.getElementById('immagine');
+        //const imagePreview = document.getElementById('image-preview');
+        const tagsList = document.getElementById('tags-list');
+        const alert = document.getElementById('form-alert');
+        const success = document.getElementById('form-success');
+        //let imageUrl = '';
+    
+        form.addEventListener('submit', async function (event) {
+          event.preventDefault();
+    
+          const nome = document.getElementById('playlist-nome').value;
+          const descrizione = document.getElementById('playlist-descrizione').value;
+          const privata = document.getElementById('playlist-privacy').value;
+    
+          const tags = Array.from(tagsList.querySelectorAll('.tag')).map(tag => tag.textContent.trim()); // Modifica il selettore
+    
+          const requestData = {
+            /*immagine: imageUrl,*/
+            nome: nome,
+            descrizione: descrizione,
+            privata: privata,
+            tags: tags
+          };
+          
+          try {
+            const response = await fetch('/playlist/createPlaylist', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(requestData)
+            });
+            if (response.status === 201) {
+              alert.style.display = 'none';
+              success.style.display = 'block';
+              success.textContent = 'Playlist creata con successo';
+              form.reset();
+              tagsList.innerHTML = '';
+            } else {
+              const err = await response.json();
+              success.style.display = 'none';
+              alert.style.display = 'block';
+              alert.textContent = err.error;
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        });
+    
+        const tagsInput = document.getElementById('pla');
+    
+        document.getElementById('playlist-new-tags').addEventListener('keypress', function (event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                aggiungiTag(document.getElementById('playlist-new-tags').value.trim());
+                document.getElementById('playlist-new-tags').value = '';
+            }
+        });
+    
+        function aggiungiTag(tag) {
+            if (tag) {
+                const trimmedTag = tag.trim();
+                if (trimmedTag !== '') {
+                    const tagElement = document.createElement('span');
+                    tagElement.classList.add('badge', 'bg-primary', 'tag', 'me-2');
+                    
+                    const tagTextWrapper = document.createElement('span');
+                    tagTextWrapper.textContent = trimmedTag;
+                    tagElement.appendChild(tagTextWrapper);
+
+                    const deleteIcon = document.createElement('i');
+                    deleteIcon.classList.add('bx', 'bx-x', 'delete-button');
+                    deleteIcon.addEventListener('click', function () {
+                        tagElement.remove();
+                    });
+                    tagElement.appendChild(deleteIcon);
+                    document.getElementById('tags-list').appendChild(tagElement);
+                }
+            }
+        }
+  
+    
+        /*immagineInput.addEventListener('change', function (event) {
+          const file = event.target.files[0];
+          if (file) {
+            // Ridimensiona l'immagine prima di visualizzarla
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const img = new Image();
+              img.onload = function () {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = 300; // Imposta la larghezza desiderata
+                canvas.height = (canvas.width / img.width) * img.height;
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                imageUrl = canvas.toDataURL('image/jpeg', 0.5); // Riduci la qualità
+                imagePreview.src = imageUrl;
+                imagePreview.style.display = 'block';
+              };
+              img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          } else {
+            imagePreview.src = '#';
+            imagePreview.style.display = 'none';
+          }
+        });*/
+
+});
+    </script>
+    
+</body>
+</html>

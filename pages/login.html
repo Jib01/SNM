@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login e Registrazione</title> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./style/login_style.css"/>
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <img src="./images/home_icon.png" class="logo">
+            <h1 class="title">Social Network for Music</h1>
+        </div>
+        <p class="welcome-msg">Accedi al tuo account o registrati per iniziare</p>
+
+        <div class="content-wrapper">
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item1">
+                <a class="nav-link active" id="nav-login-tab" data-bs-toggle="tab" data-bs-target="#nav-login" aria-controls="nav-login" aria-selected="true">Accesso</a>
+            </li>
+            <li class="nav-item2">
+                <a class="nav-link" id="nav-register-tab" data-bs-toggle="tab"  data-bs-target="#nav-register" aria-controls="nav-register" aria-selected="false">Registrazione</a>
+            </li>
+        </ul>
+    
+        <div class="tab-content">
+            <div class="tab-pane fade show active" id="nav-login" aria-labelledby="nav-login-tab" tabindex="0">
+                <form method="POST">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control dark" name="username" required>
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control dark"  name="password" required>
+                    <button type="submit" class="btn btn-primary">Accedi</button>
+                </form>
+            </div>
+
+            <div class="tab-pane fade" id="nav-register" aria-labelledby="nav-register-tab" tabindex="0">
+                <form method="POST">
+                <div id="labels-container">
+                    <label for="firstName" class="form-label">Nome</label>
+                    <label for="lastName" class="form-label">Cognome</label>
+                </div>
+                <div id="nome-cognome-container">
+                    <input type="text" class="form-control dark" id="nome" class="form-label centered-label"name="nome" required>
+                    <input type="text" class="form-control dark" id="cognome" class="form-label centered-label"name="cognome" required>
+                </div>
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control dark" name="username" required>
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control dark" name="email" required>
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control dark"  name="password" required>
+                    <button type="submit" class="btn btn-primary">Registrati</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="alert" class="alert mt-3" style="display: none;"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const alert = document.getElementById('alert');
+        const loginForm = document.querySelector('#nav-login form');
+        const registerForm = document.querySelector('#nav-register form');
+
+        const lastUsername = localStorage.getItem('lastUsername');
+        if (lastUsername) {
+            document.querySelector('#nav-login form input[name="username"]').value = lastUsername;
+        }
+
+        loginForm.addEventListener('submit', async (event) => {
+            
+            console.log('Login form submitted');
+            event.preventDefault();
+            const loginData = new FormData(loginForm);
+            console.log(JSON.stringify(Object.fromEntries(loginData)));
+            try {
+                const response = await fetch('/user/login', {
+                    method: 'POST',
+                    body: JSON.stringify(Object.fromEntries(loginData)),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log(data);
+                    localStorage.setItem('lastUsername', data.username);
+                    window.location.href = '/homepage';
+                } else {
+                    const err = await response.json();
+                    updateAlert(alert, err.error, 'danger');
+                }
+            } catch (error) {
+                console.error(error);
+                updateAlert(alert, 'Errore durante il login', 'danger');
+            }
+        });
+
+        registerForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            console.log('Register form submitted');
+            const registerData = new FormData(registerForm);
+            console.log(registerForm);
+            try {
+                const response = await fetch('/user/register', {
+                    method: 'POST',
+                    body: JSON.stringify(Object.fromEntries(registerData)),
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('lastUsername', data.data.username);
+                        setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+              }  else {
+                    const err = await response.json();
+                    updateAlert(alert, err.error, 'danger');
+                }
+            } catch (error) {
+                console.error(error);
+                updateAlert(alert, 'Errore durante la registrazione', 'danger');
+            }
+        });
+
+        function updateAlert(alertElement, message, type) {
+    if (alertElement) {
+        alertElement.textContent = message;
+        alertElement.className = `alert mt-3 alert-${type}`;
+        alertElement.style.display = 'block';
+    } else {
+        console.error("L'elemento di avviso non è stato trovato.");
+    }
+}
+
+    </script>
+</body>
+</html>

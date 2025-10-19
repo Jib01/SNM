@@ -1,0 +1,797 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+  
+a{
+    text-decoration: none;
+    color: #9439cc;
+}
+
+i{
+    color: #9439cc;
+    cursor: pointer;
+}
+
+:root {
+    scroll-behavior: smooth;
+  }
+
+  
+html,body{
+    background: linear-gradient(#050505,#18181d);
+}
+
+.container{
+    margin:0;
+    display: grid;
+    box-sizing: border-box;
+    grid-template-columns: 1fr 6fr 2fr;
+    background: linear-gradient(#050505,#18181d);
+    height: 100%;
+}
+
+/* -------------- SIDEBAR --------------- */
+
+.container .sidebar{
+    height: 100vh;
+    background-color: #18181d;
+    padding: 20px 36px;
+    display: flex;
+    flex-direction: column ;
+    justify-content:flex-start;
+    z-index: 999;
+    transition: all 0.3s ease ;
+}
+
+@media (max-width: 524px) {
+   .container{
+        height: 100vh;
+        padding: 10px;
+        overflow: hidden;
+    }
+
+}
+
+
+.container .sidebar .logo {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap:8px;
+    margin-bottom: 60px;
+}
+
+.container .sidebar .logo img {
+    width: 60px;
+    height: 60px;
+}
+
+.container .sidebar .logo h4 {
+    margin-top: 20px;
+    margin-bottom: 30px;
+    font-size: 34px; 
+    margin: 0; 
+    color: #6310ac;
+    font-family:'Nunito', sans-serif;
+}
+
+.container .sidebar .logo > i {
+    font-size: 30px;
+    align-items:center;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    color: #000000;
+    margin-bottom:12px;
+}
+
+.container .sidebar .logo h4,
+.container .sidebar .logo > i {
+    line-height: 1;
+}
+
+.container .sidebar .logo:hover a,
+.container .sidebar .logo:hover i,
+.container .sidebar .menu ul li:hover a,
+.container .sidebar .menu ul li:hover i{
+    color: #6310ac 
+}
+
+
+
+.container .sidebar .menu ul{
+    list-style-type: style none;
+}
+
+.container .sidebar .menu ul li{
+    margin-left: 20px;
+    margin-bottom: 20px;
+    display: flex;
+
+    gap:20px;
+    cursor: pointer;
+    align-items: center;
+}
+
+.container .sidebar .menu ul li a {
+    font-size: 22px;
+    font-family: 'Roboto', sans-serif;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    align-self: bottom;
+    align-items: center;
+}
+
+.container .sidebar .menu ul li a i {
+    font-size: 30px;
+    margin-top: 20px;
+
+}
+
+@media (max-width: 772px) {
+
+    .container .sidebar {
+        width: 100px;
+        padding: 20px 10px;
+        transition: all 0.3s ease ;
+    }
+
+    .container .sidebar .logo {
+        margin-top: 20px;
+        flex-direction: column;
+        align-items: center;
+        gap: 0;
+        margin-bottom: 0;
+    }
+
+    .container .sidebar .logo img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .container .sidebar .logo h4 {
+     font-size: 30px;
+     margin-top: 20px;
+     margin-bottom: 30px;
+    }
+
+    .container .sidebar .menu ul li {
+        margin-left: 0;
+        justify-content: center;
+
+    }
+
+    .container .sidebar .menu ul li a {
+        font-size: 16px; 
+    }
+
+    .container .sidebar .menu ul li a i {
+        font-size: 30px;
+        margin-top: 20px;
+    }
+
+    .container .sidebar .menu ul li a span {
+        display: none; 
+    }
+
+}
+
+/*---------------------- MAIN ---------------------*/
+
+.container main {
+    padding: 20px 36px;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    position: relative;
+}
+
+@media (max-width: 670px) {
+    .container main{
+        padding: 20px 10px 0;
+    }
+}
+
+@media (max-width: 524px) {
+    .container main {
+        padding: 0;
+    }
+
+    .container .sidebar {
+        display:none;
+    }
+ }
+/* ----------------------------- RICERCA ------------------------- */ 
+
+.container main form {
+    display: flex;
+    width: 100%; 
+    margin: 0;
+}
+
+.container main .top {
+    display: flex;
+}
+
+.container main .search {
+    position: relative;
+    display: flex;
+    margin-left: 0;
+    gap: 6px;
+    width: 50%;
+    min-width: 200px;
+    background-color: #1d1d1d;
+    border: 1px solid #464748;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 0 auto;
+}
+ 
+.container main .search .selectSearchDropdown {
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    color: #464748;
+    border-radius: 4px;
+    height: 100%;
+}
+
+.container main .search .selectSearchDropdown select {
+    width: 100%;
+    border: 1px solid #464748; 
+    border-radius: 4px;
+    background-color: #500790; 
+    color: #fff;
+    appearance: none; 
+    outline: none; 
+    cursor: pointer;
+    text-align: center;
+}
+
+.container main .search .selectSearchDropdown select:hover {
+    background-color: #6310ac;
+    border-color: #fff; 
+}
+
+
+.container main form input {
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: white;
+}
+
+.container main .top .search .searchArtistForm {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container main .top .results {
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+
+#artistsDropdown,
+#genresDropdown {
+  position: absolute;
+  display: none;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 45%;
+  max-height: 20%;
+  overflow-y: auto;
+  background-color: #1d1d1d;
+  border: 1px solid #464748;
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+@media (max-width: 524px) {
+    .container main .search {
+        width: 100%;
+    }
+
+    #artistsDropdown,
+    #genresDropdown {
+        width: 100%;
+    }
+ }
+
+#artistsDropdown::-webkit-scrollbar,
+#genresDropdown::-webkit-scrollbar {
+  width: 8px;
+  background-color: #202026;
+  max-width: 40%;
+}
+
+#artistsDropdown::-webkit-scrollbar-thumb,
+#genresDropdown::-webkit-scrollbar-thumb {
+  background-color: #6310ac;
+  border-radius: 4px;
+}
+
+#artistsDropdown::-webkit-scrollbar-track,
+#genresDropdown::-webkit-scrollbar-track {
+  display: none;
+  height: 0;
+}
+
+
+#artistsDropdown .dropdown-item,
+#genresDropdown .dropdown-item {
+    display: flex;
+    border-bottom: 1px solid #444; 
+}
+
+#artistsDropdown .dropdown-item img {
+    width: 50px; 
+    height: 50px;
+    border-radius: 100px;
+    margin: 10px;
+}
+
+#artistsDropdown .dropdown-item h4,
+#genresDropdown .dropdown-item h4 {
+    margin: 25px;
+    align-items: center;
+}
+
+
+/*----------------------- ARTISTI PREFERITI ----------------------*/
+
+.favArtists-container {
+    margin-top: 100px;
+    width: 100%; 
+    max-width: 1280px;
+    height: 260px;
+    box-sizing: border-box;
+    align-items: center;
+    transition: all 0.3s ease ;
+}
+
+@media (max-width: 1916px) {
+    .favArtists-container {
+        max-width: 1280px;
+    }
+}
+
+@media (max-width: 1839px) {
+    .favArtists-container {
+        max-width: 1065px;
+    }
+}
+
+@media (max-width: 1620px) {
+    .favArtists-container {
+        max-width: 845px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .favArtists-container {
+        max-width: 635px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .favArtists-container {
+        max-width: 420px;
+    }
+}
+
+@media (max-width: 975px) {
+    .favArtists-container {
+        max-width: 210px;
+        margin-top: 30px;
+    }
+}
+
+.favArtist-box {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid transparent;
+    align-items: center; 
+    justify-content: center; 
+    text-overflow: ellipsis; 
+    width: 200px;
+}
+
+.favArtist-box img {
+    width: 200px; 
+    height: 200px; 
+    object-fit: cover; 
+    margin-bottom: 0;
+    border-radius: 100px;
+}
+
+.favArtist-nome {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #ffffff;
+    text-align: center;
+}
+
+.favArtist-box >i {
+    position: absolute;
+    top:0;
+    right: 0;
+    font-size: 20px;
+}
+
+/*----------------------- GENERI PREFERITI ----------------------*/
+
+
+.favGenres-container {
+    position: relative;
+    margin-top: 100px;
+    width: 100%; 
+    max-width: 1280px;
+    height: 260px;
+    box-sizing: border-box;
+    align-items: center;
+    transition: all 0.3s ease ;
+}
+
+@media (max-width: 1916px) {
+    .favGenres-container {
+        max-width: 1280px;
+    }
+}
+
+@media (max-width: 1839px) {
+    .favGenres-container {
+        max-width: 1065px;
+    }
+}
+
+@media (max-width: 1620px) {
+    .favGenres-container {
+        max-width: 845px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .favGenres-container {
+        max-width: 635px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .favGenres-container {
+        max-width: 420px;
+    }
+}
+
+@media (max-width: 975px) {
+    .favGenres-container {
+        max-width: 210px;
+        margin-top: 30px;
+    }
+}
+
+.favGenre-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    border: 1px solid ;
+    height: 200px;
+    width: 200px;
+}
+
+
+.favGenre-nome {
+    margin-bottom: 5px;
+    font-size: 30px;
+    color: #ffffff;
+    text-align: center;
+}
+
+.favGenre-box >i {
+    position: absolute;
+    top:0;
+    right: 0;
+    font-size: 20px;
+}
+
+.swiper-slide {
+    width: auto !important;
+    height: 100%;
+    margin-right: 16px;
+}
+
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-wrapper{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.swiper-slide {
+    align-items: center;
+    justify-content: center;
+    padding-top: 5px;
+}
+
+.swiper-scrollbar {
+    height: 8px;
+    background-color: #6f42c1 !important; 
+}
+
+.swiper-scrollbar-thumb {
+    background-color: #6f42c1 !important; 
+    border-radius: 3px;
+}
+
+/*-------------------------- RIGHT SECTION ------------------------*/
+
+.container .right-section{
+    align-items: center;
+    justify-content: center;
+    padding: 20px 10px 0;
+    margin-right: 0;
+    display: flex;
+}
+
+.right-section .profile-section {
+    position: relative;
+    border: 4px solid #464748;
+    border-radius: 8px;
+    text-align: center;
+    display: flex; 
+    height: 80%;
+    width: 80%;
+    min-width: 200px;
+    flex-direction: column;
+    align-items: center;
+    overflow:hidden;
+
+}
+
+.right-section .profile-section button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #6310ac;
+    color: white;
+    border: 1px solid #22053b;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.right-section .profile-section button:hover {
+    background-color: #22053b; 
+    border: 1px solid #fff;
+}
+
+.right-section .profile-section img{
+    display: inline-block;
+    width: 80%;
+    height: auto;
+    border-radius: 50%;
+    border: 1px solid #6310ac;
+    margin: 10px;
+    margin-top: 40px;
+}
+
+.profile-section .data{
+    display: inline-block;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    color: #fff;
+    max-width: 90%;
+}
+
+.profile-section .data h4 {
+    font-size: clamp(28px, 8vw, 44px);
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: block;
+}
+
+.profile-section .data p {
+    font-size: clamp(22px, 6vw, 26px); 
+    display: block;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap;
+}
+
+.profile-section .data span {
+    margin-top: 50px;
+    font-size: clamp(22px, 6vw, 26px); 
+    display: block;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    white-space: nowrap;
+}
+
+@media (max-width: 670px) {
+    .container .right-section{
+        padding: 20px 10px 0;
+    }
+}
+
+@media (max-width: 524px) {
+    .container .right-section{
+        padding: 0;
+        margin-left: 10px;
+        justify-content:left;
+        align-items:baseline;
+    }
+
+    .right-section .profile-section {
+        min-width: 90px;
+        width: 100%;
+        max-width: 140px;
+        height:90%;
+    }
+
+    .right-section .profile-section img{
+        margin-top: 50px;
+        width: 100px;
+        height: auto;
+    }
+
+    .profile-section .data h4 {
+        font-size: 20px;
+    }
+    .profile-section .data p {
+        font-size: 16px;
+    }
+ }
+
+/*----------------------- MODAL MODIFICA PROFILO ---------------------*/
+
+#editModal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#editModal .modal-content {
+    position: relative; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    background-color: #202026;
+    border: 2px solid #2d0451;
+    border-radius: 10px;
+    width: 80%; 
+    max-width: 450px; 
+    padding: 20px;
+    box-sizing: border-box; 
+    text-align: center;
+}
+
+.modal-content h2{
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+#editModal .modal-content .close {
+    position: absolute; 
+    top: 5px; 
+    right: 10px;
+    color: #6310ac;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+  
+#editModal .modal-content .close:hover,
+#editModal .modal-content .close:focus {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.form-label {
+    margin-bottom: 15px;
+    color: white; 
+}
+
+.modal-content .form-control {
+    color: #fff;
+    margin-top: 15px;
+    width: 100%;
+}
+
+
+#edit-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#edit-form .section {
+    margin-top: 20px;
+}
+
+#edit-form .section .form-label {
+    margin-bottom: 10px;
+    color: white;
+}
+
+#edit-form .section .form-control  {
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    background-color: #1d1d1d;
+    border: 1px solid #464748;
+    padding: 10px;
+    border-radius: 8px;
+    color: #fff;
+}
+
+#edit-form .section  input{
+    margin-top: 15px;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: white;
+}
+
+.delete-button {
+    cursor: pointer;
+    margin-left: 0.5rem;
+    color: white;
+}
+
+.btn-primary {
+    margin-top: 20px;
+    background-color: #6310ac;
+    color: white;
+    border: 1px solid #22053b;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    align-self: center;
+}
+ 
+.btn-primary:hover {
+    background-color: #22053b; 
+    border: 1px solid #fff;
+}
+
+#deleteButton {
+    margin-top: 20px;
+    background-color: #000000;
+    color: white;
+    border: 1px solid #6310ac;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    align-self: center;
+}
+
+#deleteButton:hover {
+    background-color: #000000; 
+    border: 1px solid red;
+}

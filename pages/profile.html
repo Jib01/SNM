@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="it">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./style/profile_style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <title>Profile</title>
+</head>
+
+<body>
+ <div class="container">
+    <aside class="sidebar">
+        <div class="logo">
+            <img src="./images/home_icon.png" alt="Music Icon">
+                <h4>SNM</h4>
+        </div>
+        <div class="menu">
+            <ul>
+                <li>              
+                    <a class="nav-link active" href="/homepage">
+                        <i class='bx bxs-home-circle'> </i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                    
+                <li class="nav-item">
+                    <a class="nav-link">
+                        <i class='bx bx-user-circle'>  </i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/publicplaylistspage">
+                        <i class='bx bxs-playlist'>  </i>
+                         <span>Playlists</span>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/createplaylistpage">
+                        <i class='bx bx-list-plus'>  </i>
+                        <span>Create</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+    <main>
+
+      <div class="top">
+        <div class="search">
+            <div class="selectSearchDropdown">
+              <select id="selectSearch">
+                  <option value="searchArtist" selected>Artisti</option>
+                  <option value="searchGenre">Generi</option>
+              </select>       
+            </div>
+            
+            <form id="searchArtistForm" method="POST">
+                <input type="text" id="searchArtist" placeholder="Cerca un'artista"/>
+            </form>
+            
+            <form id="searchGenreForm" method="POST">
+                <input type="text" id="searchGenre" placeholder="Cerca un genere"/>
+            </form>
+            <i class='bx bx-search'></i>
+        </div>
+      </div>
+           
+      <ul class="artistsDropdown" id="artistsDropdown"></ul>
+      <ul class="genresDropdown" id="genresDropdown"></ul>
+
+      <div class="favArtists-container" id="favArtists-container">
+          <div class="swiper mySwiper">
+              <div class="swiper-wrapper"></div>
+              <div class="swiper-scrollbar"></div>
+          </div>
+      </div>
+  
+      <div class="favGenres-container" id="favGenres-container">
+          <div class="swiper mySwiper">
+              <div class="swiper-wrapper"></div>
+              <div class="swiper-scrollbar"></div>
+          </div>
+      </div>
+
+        <div id="editModal" class="modal">
+          <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2>Modifica Profilo</h2>
+
+            <form id="edit-form">
+                <div class="section">
+                  <label for="username" class="form-label">Username</label>
+                  <input type="text" class="form-control dark" id="editusername" placeholder="username">
+                </div>
+                <div class="section">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="text" class="form-control dark" id="editemail" placeholder="email">
+                </div>
+                <div class="section">
+                  <label for="password" class="form-label">Password</label>
+                  <input type="input" class="form-control dark" id="editpassword" placeholder="password">
+                </div>
+                <div class="section">
+                  <label for="nome" class="form-label">Nome</label>
+                  <input type="text" class="form-control dark" id="editnome" placeholder="nome">
+                </div>
+                <div class="section">
+                  <label for="cognome" class="form-label">Cognome</label>
+                  <input type="text" class="form-control dark" id="editcognome" placeholder="cognome">
+                </div>
+ 
+
+                <button type="submit" class="btn btn-primary">Salva</button>
+            </form>
+            <button id="deleteButton" class="btn btn-danger">Elimina</button>
+          </div>
+        </div>
+
+
+    </main>
+  
+  <div class="right-section">
+      <div class="profile-section">
+
+        <button type="button" class="editButton" id="editButton">
+          edit
+          <i class='bx bxs-edit-alt'></i>
+        </button>
+
+        <img src="./images/profile_icon.png">
+        
+        <div class="data">
+          <p> Username: </p>
+            <h4 id="username"></h4>
+          <span> Email: </span>
+            <p id="email"></p>
+          <span> Nome e Cognome: </span>
+            <p id="nome"></p>
+            <p id="cognome"></p>
+        </div>
+
+    </div>
+  </div>
+ </div>
+ <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+ <script>
+
+
+/*--------------------- SWIPER SCORRIMENTO ----------------------*/
+
+ let swiper = new Swiper('.mySwiper', {
+         slidesPerView: 'auto',
+         spaceBetween: 16,
+         scrollbar: {
+         el: '.swiper-scrollbar',
+         draggable: true,
+         },
+
+         pagination: {
+         el: '.swiper-pagination',
+         clickable: true,
+         mousewheel: true,
+
+         breakpoints: {
+             320: {
+             slidesPerView: 1,
+             spaceBetween: 10,
+             },
+             768: {
+             slidesPerView: 2,
+             spaceBetween: 20,
+             },
+             1024: {
+             slidesPerView: 2,
+             spaceBetween: 30,
+             },
+         },
+         },
+     });
+
+/*------------------------- DATI USER -----------------------*/
+
+let user = {};
+
+      (async () => {
+        const username = document.getElementById('username');
+        const email = document.getElementById('email');
+        const nome = document.getElementById('nome');
+        const cognome = document.getElementById('cognome');
+        try {
+          const res = await fetch('/user/data', {
+            method: 'GET',
+          });
+          if (res.ok) {
+            
+            const response = await res.json();
+            console.log(response.data);
+            user = response.data;
+            username.innerHTML = response.data.username;
+            email.innerHTML = response.data.email;
+            nome.innerHTML = response.data.nome + " " + response.data.cognome;
+    
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+
+
+      const artistForm = document.getElementById('searchArtistForm');
+      const searchArtist = document.getElementById('searchArtist');
+      const artistsDropdown = document.getElementById('artistsDropdown');
+      const genreForm = document.getElementById('searchGenreForm');
+      const searchGenre = document.getElementById('searchGenre');
+      const genresDropdown = document.getElementById('genresDropdown');
+      const favArtistsWrapper =  document.getElementById('favArtists-container').querySelector('.swiper-wrapper');
+      const favGenresWrapper =  document.getElementById('favGenres-container').querySelector('.swiper-wrapper');
+
+      let selectedOption = "searchArtist";
+      artistForm.style.display='block';
+      genreForm.style.display='none';
+      
+      const selectSearch = document.getElementById('selectSearch');
+      selectSearch.addEventListener('change', function() {
+        selectedOption = selectSearch.value;
+
+        if(selectedOption === "searchArtist" ){
+
+          genreForm.style.display='none';
+          genresDropdown.style.display='none';
+          artistForm.style.display='block';
+
+        } else {
+
+          artistForm.style.display='none';
+          artistsDropdown.style.display='none';
+          genreForm.style.display='block';
+         
+        }
+      });
+
+/*-------------------------- RICERCA ARTISTI --------------------------*/
+
+      searchArtist.addEventListener('input', async (event) => {
+          const query = event.target.value;
+          artistsDropdown.innerHTML='';
+          
+          if (query.length > 1) {
+            try {
+              const response = await fetch(
+                `/spotify/searchArtist?artist=${query}`
+              );
+
+              if (!response.ok) {
+                throw new Error('Errore nella ricerca degli artisti');
+              }
+              const data = await response.json();
+              const artists = data.data;
+
+            if (artists.length > 0) {
+              for (let i = 0; i < 6 && i < artists.length; i++) {
+                  const artist = document.createElement('li');
+                  artist.innerHTML = `
+                  <a class="dropdown-item" data-id="${artists[i].id}">
+                      <img src="${artists[i].images[0].url}">
+                      <h4>${artists[i].name}</h4>
+                  </a>`;
+                  artistsDropdown.appendChild(artist);  
+              }
+
+              artistsDropdown.style.display = 'block';
+            } else {
+                artistsDropdown.style.display = 'none';
+            }
+            } catch (error) {
+              console.error(error);
+            }
+          } else {
+            artistsDropdown.style.display = 'none';
+          }
+          document.addEventListener('click', (event) => {
+            if (!artistsDropdown.contains(event.target)) {
+              artistsDropdown.style.display = 'none';
+            }
+          });
+        });
+
+/*-------------------------- AGGIUNTA ARTISTI PREFERITI --------------------------*/
+
+      artistsDropdown.addEventListener('click', async (event) => {
+        if (event.target.classList.contains('dropdown-item')) {
+          const artist_id = event.target.dataset.id;
+          try {
+            const response = await fetch(
+              `/user/addArtist?artist_id=${artist_id}`,
+              {
+                method: 'POST',
+              }
+            );
+            if (response.status === 200) {
+              console.log('artista aggiunto ai pregeriti');
+              getFavArtists();
+            } else {
+              const err = await response.json();
+              console.log(err.error);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      });
+
+/*-------------------------- ARTISTI PREFERITI --------------------------*/
+
+      async function getFavArtists() {
+        try {
+          const response = await fetch('/user/getArtists', {
+            method: 'GET',
+          });
+          if (response.ok) {
+            const res = await response.json();
+            const artists = res.data.artistiPreferiti;
+
+            favArtistsWrapper.innerHTML='';
+
+            artists.forEach((favArtist) => {
+              const favArtistBox = document.createElement('div');
+              favArtistBox.classList.add('favArtist-box');
+
+              const favArtistName = document.createElement('h3');
+              favArtistName.textContent = favArtist.nome;
+              favArtistName.classList.add('favArtist-nome');
+
+              const favArtistImage = document.createElement('img');
+              favArtistImage.src = favArtist.immagine;
+              favArtistImage.alt = favArtist.nome;
+
+              const deleteIcon = document.createElement('i');
+              deleteIcon.classList.add('bx', 'bxs-x-circle');
+
+              favArtistBox.appendChild(favArtistImage);
+              favArtistBox.appendChild(favArtistName);
+              favArtistBox.appendChild(deleteIcon);
+
+              deleteIcon.addEventListener('click', async () => {
+                try {
+                  const deleteResponse = await fetch(`/user/removeArtist?artist_id=${favArtist.id}`, {
+                    method: 'DELETE',
+                  });
+
+                  if (deleteResponse.ok) {
+                    getFavArtists();
+                  } else {
+                    console.error('Errore durante l\'eliminazione dell\'artista');
+                  }
+                } catch {
+                  console.error(error);
+                }
+              });
+
+              const swiperSlide = document.createElement('div');
+              swiperSlide.classList.add('swiper-slide');
+              swiperSlide.appendChild(favArtistBox);
+              favArtistsWrapper.appendChild(swiperSlide);
+            });
+        
+          } else {
+            console.error('Errore aggiunta artista preferito')
+          }
+
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      getFavArtists();
+
+/*-------------------------- RICHIESTA GENERI --------------------------*/
+
+(async () => {
+        try {
+          const response = await fetch('/spotify/getGenres', {
+            method: 'GET',
+          });
+          if (response.ok) {
+            const res = await response.json();
+            const genres = res.data.genres;
+
+            searchGenre.addEventListener('input', (e) => {
+                const query = e.target.value;
+                genresDropdown.innerHTML = '';
+                if (query.length > 0) {
+                  const filteredGenres = genres.filter((genre) =>
+                    genre.toLowerCase().includes(query.toLowerCase())
+                  );
+
+                  if (filteredGenres.length > 0) { 
+                        for (let i = 0; i < 5 && i < filteredGenres.length; i++) {
+                            const genreItem = document.createElement('li');
+                            genreItem.innerHTML = `
+                                <a class="dropdown-item" href="#"><h4>${filteredGenres[i]}</h4></a>
+                            `;
+                            genresDropdown.appendChild(genreItem);
+                        }
+                        genresDropdown.style.display = 'block';
+                    } else {
+                        genresDropdown.style.display = 'none';
+                    }
+                } else {
+                    genresDropdown.style.display = 'none';
+                }
+              });
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      })();
+
+/*--------------------------AGGIUNTA GENERI PREFERITI --------------------------*/
+
+      genresDropdown.addEventListener('click', async (event) => {
+        if (event.target.classList.contains('dropdown-item')) {
+          const selectedGenre = event.target.textContent;
+          try {
+            const response = await fetch(`/user/addGenre?genre=${selectedGenre}`, {
+              method: 'POST',
+            });
+            if (response.status === 200) {
+              console.log('genere aggiunto ai preferiti');
+              searchGenre.value = '';
+              genresDropdown.innerHTML = '';
+              genresDropdown.style.display = 'none';
+              getFavGenres();
+            } else {
+              const err = await response.json();
+              console.log(err.error);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      });
+
+/*-------------------------- GENERI PREFERITI --------------------------*/
+
+      async function getFavGenres() {
+        try {
+          const response = await fetch('/user/getGenres', {
+            method: 'GET',
+          });
+          if (response.status === 200) {
+            const res = await response.json();
+            const genres = res.data.generiPreferiti;
+
+            favGenresWrapper.innerHTML='';
+
+            genres.forEach((favGenre) => {
+              const favGenreBox = document.createElement('div');
+              favGenreBox.classList.add('favGenre-box');
+
+              const favGenreName = document.createElement('h3');
+              favGenreName.textContent = favGenre;
+              favGenreName.classList.add('favGenre-nome');
+
+              const deleteIcon = document.createElement('i');
+              deleteIcon.classList.add('bx', 'bxs-x-circle');
+
+              favGenreBox.appendChild(favGenreName);
+              favGenreBox.appendChild(deleteIcon);
+
+              deleteIcon.addEventListener('click', async () => {
+                try {
+
+                  const response = await fetch(`/user/removeGenre?genre=${favGenre}`, {
+                    method: 'DELETE',
+                  });
+
+                  if (response.status === 200) {
+                    getFavGenres();
+                  } else {
+                    console.error('Errore durante l\'eliminazione del genere');
+                  }
+                } catch (error) {
+                  console.error(error);
+                }
+              });
+
+              const swiperSlide = document.createElement('div');
+              swiperSlide.classList.add('swiper-slide');
+              swiperSlide.appendChild(favGenreBox);
+              favGenresWrapper.appendChild(swiperSlide);
+
+            });
+  
+          } else {
+            console.error('Errore aggiunta genere preferito')
+          }
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      getFavGenres();
+
+/* --------------------------- MODIFICA PROFILO ---------------------------*/
+
+const editModal = document.getElementById('editModal');
+const editButton = document.getElementById('editButton');
+const closeModal = document.getElementById('closeModal');
+const deleteButton = document.getElementById('deleteButton');
+editButton.addEventListener('click', () => {
+    editModal.style.display = 'block';
+    displayEditModal(); 
+});
+
+deleteButton.addEventListener('click', function() {
+    const confirmation = confirm("Sei sicuro di voler eliminare questo profilo?");
+    
+    if (confirmation) {
+        deleteProfile();
+    }
+});
+
+closeModal.addEventListener('click', function() {
+  editModal.style.display = 'none';
+});
+
+window.addEventListener('click', function(event) {
+    if (event.target == editModal) {
+      editModal.style.display = 'none';
+    }
+});
+
+function displayEditModal(){
+  document.getElementById('editusername').placeholder = user.username;
+  document.getElementById('editemail').placeholder = user.email;
+  //document.getElementById('editpassword').placeholder = user.password;
+  document.getElementById('editnome').placeholder = user.nome;
+  document.getElementById('editcognome').placeholder = user.cognome;
+
+  const editForm = document.getElementById('edit-form');
+  editForm.addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    const newUsername = document.getElementById('editusername').value.trim();
+    const newEmail = document.getElementById('editemail').value.trim();
+    const newPassword = document.getElementById('editpassword').value.trim();
+    const newNome = document.getElementById('editnome').value.trim();
+    const newCognome =document.getElementById('editcognome').value.trim();
+    
+    const formData = new FormData(editForm);
+    if(newUsername.trim()){
+        formData.append('username', newUsername);
+    }
+    if(newEmail.trim()){
+        formData.append('email', newEmail);
+    }
+    if(newPassword.trim()){
+        formData.append('password', newPassword);
+    }
+    if(newNome.trim()){
+        formData.append('nome', newNome);
+    }
+    if(newCognome.trim()){
+        formData.append('cognome', newCognome);
+    }
+
+
+    try {
+        const response = await fetch('/user/editProfile', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+
+            body: JSON.stringify(Object.fromEntries(formData)),
+        });
+    editForm.reset();
+
+  if(response.ok) {
+
+    fetch('/user/data')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Errore durante il recupero dati utente');
+            }
+            return response.json();
+        })
+        .then(response => {
+            user = response.data;
+            username.innerHTML = response.data.username;
+            email.innerHTML = response.data.email;
+            nome.innerHTML = response.data.nome + " " + response.data.cognome;
+            console.log('Profilo modificato con successo!');
+            editModal.style.display = 'none';
+        })
+        .catch(error => {
+            console.error('Errore:', error);
+            alert('Si è verificato un errore durante la modifica del profilo: ' + error.message);
+          });
+
+  } else {
+    throw new Error('Errore durante la modifica del profilo');
+  }
+  
+  }catch(error) {
+      console.log(error);
+      alert('Si è verificato un errore durante la modifica del profilo: ' + error.message);
+  };
+  });
+
+};
+
+/*-------------------------- ELIMINA PROFILO --------------------------*/
+
+async function deleteProfile(){
+    try {
+        const response = await fetch(`/user/deleteProfile`, {
+            method: 'DELETE',
+        });
+
+        if (response.ok) {
+            console.log('Profilo eliminato con successo!');
+            window.location.href = '/logoutpage';
+        } else {
+            console.error('Errore durante l\'eliminazione del profilo:', response.status);
+        }
+    } catch (error) {
+        console.error('Errore durante la richiesta di eliminazione del profilo:', error);
+    }
+};
+    </script>
+</body>
+
+</html>
